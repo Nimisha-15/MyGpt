@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240" height="240" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="grad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#4C52FF" />
+      <stop offset="100%" stop-color="#00D4FF" />
+    </radialGradient>
+  </defs>
+  <circle cx="120" cy="120" r="110" fill="url(#grad)" />
+  <path d="M120 40 
+           C75 40, 45 80, 60 120 
+           C75 160, 110 180, 150 160
+           C190 140, 185 90, 150 70
+           C135 60, 125 50, 120 40Z"
+        fill="white" opacity="0.9"/>
+</svg>
