@@ -10,18 +10,19 @@ import Login from "./pages/Login";
 import Loading from "./pages/Loading";
 import { assets } from "./assets/assets";
 import { useAppContext } from "./context/AppContext";
-
 import "./assets/prism.css";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
-  const { user } = useAppContext();
+  const { user, loadingUser } = useAppContext();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { pathname } = useLocation();
 
-  if (pathname === "/loading") return <Loading />;
+  if (pathname === "/loading" || loadingUser) return <Loading />;
 
   return (
     <>
+      <Toaster />
       {!isMenuOpen && (
         <img
           src={assets.menu_icon}
@@ -31,20 +32,23 @@ const App = () => {
       )}
 
       {/* 🔹 Main app always loads, even if user is demo */}
-      <div className="dark:bg-gradient-to-b dark:from-[#242124] dark:to-[#000000] dark:text-white">
-        <div className="flex h-screen w-screen p-2">
-          <Sidebar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
-
-          <Routes>
-            <Route path="/" element={<Chatbox />} />
-            <Route path="/credits" element={<Credits />} />
-            <Route path="/community" element={<Community />} />
-            <Route path="/login" element={<Login />} />
-          </Routes>
-
-          <Message />
+      {user ? (
+        <div className="dark:bg-linear-to-b dark:from-[#242124] dark:to-[#000000] dark:text-white">
+          <div className="flex h-screen w-screen p-2">
+            <Sidebar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+            <Routes>
+              <Route path="/" element={<Chatbox />} />
+              <Route path="/credits" element={<Credits />} />
+              <Route path="/community" element={<Community />} />
+            </Routes>
+            <Message />
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="dark:bg-linear-to-b dark:from-[#242124] dark:to-[#000000] flex items-center justify-center h-screen w-screen ">
+          <Login />
+        </div>
+      )}
     </>
   );
 };

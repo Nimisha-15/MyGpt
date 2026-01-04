@@ -2,7 +2,7 @@ const chatModel = require("../models/chat.model")
 
 const newChatController = async (req,res)=>{
     try {
-        const userId = req.user._id
+        const userId = req.user._id;
         const chatData ={
             userId :userId,
             messages : [],
@@ -11,6 +11,7 @@ const newChatController = async (req,res)=>{
         }
         const createdChat = await chatModel.create(chatData)
         res.status(200).json({
+            success : true,
             message : "Chat created successfully !!",
             createdChat
         })
@@ -28,12 +29,13 @@ const newChatController = async (req,res)=>{
 
 const getChats = async (req,res)=>{
     try {
-        const userId = req.user._id
+        const userId = req.user._id;
         const chats = await chatModel
   .find({ userId: userId })
   .sort({ updatedAt: -1 })
 
         return res.status(200).json({
+            success : true,
             message : "Chat get api called !!",
             chats : chats
         })
@@ -50,14 +52,15 @@ const getChats = async (req,res)=>{
 // api for deleting selected chat
 const deleteChats = async (req,res)=>{
     try {
-        const userId = req.user._id
+        const userId = req.user._id;
         const {chatId} = req.body 
 
         const chats = await chatModel.deleteOne({
   _id: chatId,
-  userId: String(userId)
+  userId: userId
 })
         return res.status(200).json({
+            success : true,
             message : "Chat deleted  successfully !!",
             chats : chats
         })

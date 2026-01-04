@@ -4,7 +4,7 @@ const userModel = require("../models/user.model")
 
 const authMiddleWare = async (req ,res ,next)=>{
     try {
-        let token = req.cookies.token 
+        let token = req.cookies.token ;
          
         if(!token){
             return res.status(404).json({

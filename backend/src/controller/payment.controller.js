@@ -29,8 +29,8 @@ const plans = [{
 
 const getPlans = async (req, res)=>{
     try {
-        res.status(201).json({
-            message : "",
+        res.status(200).json({
+            message : "Plans fetched successfully",
             success : true ,
             plans : plans
         })
@@ -59,9 +59,7 @@ const purchasePlan = async (req, res) => {
         success: false,
         message: "Invalid plan",
       });
-    }
-
-  
+    }  
     // Save transaction
     const transaction = await paymentModel.create({
       userId : userId,
@@ -79,7 +77,7 @@ const purchasePlan = async (req, res) => {
   "http://localhost:5173";
 
 const session = await stripe.checkout.sessions.create({
-  success_url: 'https://example.com/success',
+
   line_items: [
     {
       price_data :{
@@ -117,19 +115,12 @@ const session = await stripe.checkout.sessions.create({
 
 const verifyPayment = async (req, res) => {
   try {
-  
-
-
     if (!transaction) {
       return res.status(404).json({
         success: false,
         message: 'Transaction not found',
       });
     }
-
-    // Create expected signature
-  
-
 
     // Add credits to user
     await userModel.findByIdAndUpdate(transaction.userId, {
