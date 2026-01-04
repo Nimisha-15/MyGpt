@@ -18,7 +18,11 @@ app.post('/api/stripe', express.raw({ type: 'application/json' }), stripeWebhook
 
 // Middlewares (after webhook!)
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin:[
+    "http://localhost:5173",
+    "https://my-gpt-front.vercel.app",
+    "https://my-gpt-front-*.vercel.app" // Add this for preview deployments
+  ],
   credentials: true,
 }));
 app.use(express.json());

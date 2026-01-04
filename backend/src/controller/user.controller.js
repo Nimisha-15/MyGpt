@@ -1,4 +1,3 @@
-
 const userModel = require("../models/user.model")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
@@ -41,10 +40,11 @@ const registerController = async (req, res) => {
     });
     
     res.cookie("token", token, {
-      httpOnly: true,
-      secure: false, // development mein false
-      sameSite: "lax"
-    });
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production', // true in production
+  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+  domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined
+});
 
     console.log("User registered:", newUser.email); // Debug
     
@@ -80,7 +80,7 @@ const loginController = async (req, res)=>{
         message: "User not found",
       });
 
-    let cp = user.comparePass(password);
+    let cp = await user.comparePass(password);
 
     if (!cp)
       return res.status(400).json({
@@ -91,12 +91,12 @@ const loginController = async (req, res)=>{
       expiresIn: "100d",
     });
 
-    res.cookie("token", token);
-        return res.status(200).json({
-            success: true,  
-            message : 'user login successfully ',
-            user : user
-        })
+    res.cookie("token", token, {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production', // true in production
+  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+  domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined
+});
 
         
     } catch (error) {
@@ -116,7 +116,7 @@ const logoutController = async (req, res) => {
   try {
     res.clearCookie("token", {
       httpOnly: true,
-      sameSite: "strict"
+      sameSite: "none"
     });
     return res.status(200).json({
       success: true,
