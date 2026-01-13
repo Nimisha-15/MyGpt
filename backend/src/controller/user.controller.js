@@ -25,14 +25,11 @@ const registerController = async (req, res) => {
         message: "Email already registered!"
       });
     }
-
-    // 🔥 HASH PASSWORD
-    const hashedPassword = await bcrypt.hash(password, 10);
         
        const newUser = await userModel.create({
       name,
       email,
-      password: hashedPassword
+      password
     });
 
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
@@ -41,12 +38,11 @@ const registerController = async (req, res) => {
     
     res.cookie("token", token, {
   httpOnly: true,
-  secure: process.env.NODE_ENV === 'production', // true in production
-  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-  domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined
+  secure: false, 
+  sameSite: 'lax',
 });
 
-    console.log("User registered:", newUser.email); // Debug
+    console.log("User registered:", newUser.email); 
     
     return res.status(201).json({
       success: true,
@@ -65,50 +61,59 @@ const registerController = async (req, res) => {
 
 // api for login user
 
-const loginController = async (req, res)=>{
-    try {
-        const {email , password} = req.body 
-        if(!email || !password) return res.status(404).json({
-            success: false,
-            message : "all fields required"
-        })
-        
-         const user = await userModel.findOne({email});
+const loginController = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-    if (!user)
-      return res.status(404).json({
-        message: "User not found",
-      });
-
-    let cp = await user.comparePass(password);
-
-    if (!cp)
+    if (!email || !password) {
       return res.status(400).json({
-        message: "incorrect email and password",
+        success: false,
+        message: "Email and password required"
       });
-
-    let token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "100d",
-    });
-
-    res.cookie("token", token, {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === 'production', // true in production
-  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-  domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined
-});
-
-        
-    } catch (error) {
-        console.log("error in login controller ---->" , error )
-        return res.status(400).json({
-            message : " error in login controller",
-            error : error
-        })
-        
     }
 
-}
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "Incorrect email or password"
+      });
+    }
+
+    const isMatch = await user.comparePass(password); // assuming comparePass is async
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        message: "Incorrect email or password"
+      });
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "30d",
+    });
+
+    const cookieOptions = {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax"
+    };
+
+    res.cookie("token", token, cookieOptions);
+
+    return res.status(200).json({
+      success: true,
+      message: "Login successful",
+      user: { id: user._id, name: user.name, email: user.email }
+    });
+
+  } catch (error) {
+    console.log("error in login controller ---->", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error during login"
+    });
+  }
+};
 
 
 // logout hona

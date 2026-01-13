@@ -17,8 +17,8 @@ const Message = ({ message }) => {
       {message.role === "user" ? (
         <div className="flex items-start justify-end my-4 gap-2">
           <div className="flex flex-col gap-2 p-2 px-4 bg-slate-200 dark:bg-[#4277a5d4] border border-[#80609F]/30 rounded-md max-w-2xl">
-            <p className="text-sm dark:text-primary">{message.content}</p>
-            <span className="text-sm  text-zinc-400 dark:text-[#64b0c7ac]">
+            <p className="text-md dark:text-white">{message.content}</p>
+            <span className="text-sm  text-zinc-400 dark:text-[#599cbec0]">
               {moment(message.timestamp).fromNow()}
             </span>
           </div>

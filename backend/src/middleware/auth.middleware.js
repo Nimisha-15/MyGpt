@@ -22,7 +22,10 @@ const authMiddleWare = async (req ,res ,next)=>{
         req.user = user;
         next()
     } catch (error) {
-        console.log("error in auth Middlerware --->" , error)
-    }
+  return res.status(401).json({
+    success: false,
+    message: "Unauthorized"
+  });
+}
 }
 module.exports = authMiddleWare

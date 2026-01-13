@@ -16,7 +16,7 @@ const Chatbox = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (!prompt.trim() || !user || !selectedChats?._id || loading) return;
+    if (!prompt.trim() || !user || !selectedChats._id || loading) return;
 
     const currentPrompt = prompt.trim();
     setPrompt("");

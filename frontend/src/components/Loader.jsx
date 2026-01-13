@@ -1,37 +1,40 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
-@import "tailwindcss";
+import React from "react";
+import styled from "styled-components";
 
-/* Custom dark variant */
-@custom-variant dark (&:where(.dark &));
+const Loader = () => {
+  return (
+    <StyledWrapper>
+      <div className="boxes">
+        <div className="box">
+          <div />
+          <div />
+          <div />
+          <div />
+        </div>
+        <div className="box">
+          <div />
+          <div />
+          <div />
+          <div />
+        </div>
+        <div className="box">
+          <div />
+          <div />
+          <div />
+          <div />
+        </div>
+        <div className="box">
+          <div />
+          <div />
+          <div />
+          <div />
+        </div>
+      </div>
+    </StyledWrapper>
+  );
+};
 
-/* Custom theme variables */
-@theme {
-  --color-primary:#b8cfdf;
-}
-
-/* Global font */
-* {
-  font-family: "Outfit", sans-serif;
-}
-
-/* Hide scrollbar */
-::-webkit-scrollbar {
-  display: none;
-}
-
-.reset-tw :not(pre):not(code){
-  all: revert;
-}
-
-.loader div:nth-child(2){
-  animation-delay: 0.1s;
-}
-.loader div:nth-child(3){
-  animation-delay: 0.3s;
-  color: rgba(59, 132, 185, 0.811);
-}
-
-/* loader ---> */
+const StyledWrapper = styled.div`
   .boxes {
     --size: 32px;
     --duration: 800ms;
@@ -78,7 +81,7 @@
   }
 
   .boxes .box > div {
-    --background: #5C8DF6;
+    --background: #5c8df6;
     --top: auto;
     --right: auto;
     --bottom: auto;
@@ -94,7 +97,8 @@
     right: var(--right);
     bottom: var(--bottom);
     left: var(--left);
-    transform: rotateY(var(--rotateY)) rotateX(var(--rotateX)) translateZ(var(--translateZ));
+    transform: rotateY(var(--rotateY)) rotateX(var(--rotateX))
+      translateZ(var(--translateZ));
   }
 
   .boxes .box > div:nth-child(1) {
@@ -114,14 +118,15 @@
   }
 
   .boxes .box > div:nth-child(4) {
-    --background: #dbe3f4f0;
+    --background: #dbe3f4;
     --top: 0;
     --left: 0;
     --translateZ: calc(var(--size) * 3 * -1);
   }
 
   @-webkit-keyframes box1 {
-    0%, 50% {
+    0%,
+    50% {
       transform: translate(100%, 0);
     }
 
@@ -131,7 +136,8 @@
   }
 
   @keyframes box1 {
-    0%, 50% {
+    0%,
+    50% {
       transform: translate(100%, 0);
     }
 
@@ -169,7 +175,8 @@
   }
 
   @-webkit-keyframes box3 {
-    0%, 50% {
+    0%,
+    50% {
       transform: translate(100%, 100%);
     }
 
@@ -179,7 +186,8 @@
   }
 
   @keyframes box3 {
-    0%, 50% {
+    0%,
+    50% {
       transform: translate(100%, 100%);
     }
 
@@ -214,4 +222,7 @@
     100% {
       transform: translate(100%, 100%);
     }
-  };
+  }
+`;
+
+export default Loader;

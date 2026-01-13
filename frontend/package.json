@@ -10,8 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@splinetool/react-spline": "^4.1.0",
     "@tailwindcss/vite": "^4.1.17",
     "axios": "^1.13.2",
+    "lottie-react": "^2.4.1",
+    "lucide-react": "^0.562.0",
     "moment": "^2.30.1",
     "prismjs": "^1.30.0",
     "react": "^19.0.0",
@@ -19,6 +22,8 @@
     "react-hot-toast": "^2.6.0",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^7.9.6",
+    "styled-components": "^6.2.0",
+    "tailgrids": "^2.3.0",
     "tailwindcss": "^4.1.17"
   },
   "devDependencies": {
@@ -31,6 +36,5 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
     "vite": "^6.3.0"
-    
   }
 }

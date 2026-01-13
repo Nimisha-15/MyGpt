@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 
+// default url
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 
 const AppContext = createContext();
